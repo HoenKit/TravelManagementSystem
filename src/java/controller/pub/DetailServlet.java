@@ -108,7 +108,6 @@ public class DetailServlet extends HttpServlet {
                     bookingIds.add(latestBooking.getBookingId());
                     request.setAttribute("bookingIds", bookingIds);
                 }
-
                 request.getRequestDispatcher("tourDetail.jsp").forward(request, response);
             } else { 
                 response.sendRedirect("404.jsp");

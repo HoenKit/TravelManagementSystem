@@ -15,6 +15,48 @@
         <link rel="stylesheet" href="css/style_rating.css">
    
     </head>
+    <style>
+  /* Active (filled) star */
+  .fa-star{
+      color: gold; 
+  }
+.review-container {
+    position: relative;
+}
+
+.more-options {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.options-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.review-container:hover .options-dropdown {
+    display: block;
+}
+
+.edit-btn,
+.delete-btn {
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: center;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: #808B8D;
+}
+
+</style>
     <body>
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -168,26 +210,21 @@
             <!-- About End -->
             
             
-            <!-- View User Reviews -->
 
+<!-- View User Reviews -->
 <br>
-<div>
+<div class="card mx-auto" style="max-width: 900px; border: 1px solid #ccc; border-radius: 12px; padding: 20px;">
     <div>
         <div id="customerReviews" class="text-center">
             Total Reviews: <span id="totalReviews">0</span><br>
             Average Rating: <span id="averageRating">0.0</span>
-            <span class="fa fa-star star-active ml-3"></span>
-            <span class="fa fa-star star-active"></span>
-            <span class="fa fa-star star-active"></span>
-            <span class="fa fa-star star-active"></span>
-            <span class="fa fa-star star-inactive"></span>                   
+            <span class="fa fa-star star-active ml-3"></span>                  
             <br><br>
-
-            <div class="card mx-auto" style="max-width: 800px;">
-                <div class="row d-flex justify-content-center">
-                    <div class="d-flex flex-column user-reviews">
-                        <c:forEach var="review" items="${reviews}">
-                            <div class="review">
+            <div class="row d-flex justify-content-center">
+                <div class="d-flex flex-column user-reviews">
+                    <c:forEach var="review" items="${reviews}">
+                        <div class="review-container">
+                            <div class="review" style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative;">
                                 <h4>${review.booking.tour.tourName} ${review.booking.tour.startLocation}</h4>
                                 <h5 class="mt-2 mb-0">User: ${review.booking.user.name}</h5>
                                 <div class="row text-left">
@@ -195,24 +232,29 @@
                                 </div>
                                 <div>
                                     <p class="text-left">
-                                        <span class="text-muted">${review.rating}</span>
+                                        Rating: <span class="text-muted">${review.rating}</span>
                                         <span class="fa fa-star star-active ml-3"></span>
-                                        <span class="fa fa-star star-active"></span>
-                                        <span class="fa fa-star star-active"></span>
-                                        <span class="fa fa-star star-active"></span>
-                                        <span class="fa fa-star star-inactive"></span>
                                     </p>
                                 </div>
                                 <br>
                             </div>
-                        </c:forEach>
-                    </div>
-                </div>
+                            <!-- Three dots icon for more options -->
+                            <div class="more-options">
+                                <span class="fa fa-ellipsis-h"></span>
+                                <div class="options-dropdown">
+                                    <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&action=update'" class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>  
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>   
             </div>
         </div>
     </div>
 </div>
 <!-- END -->
+
 
 <!-- Create Review -->
 <c:if test="${not empty auth.userId and not empty bookingIds}">
@@ -220,41 +262,41 @@
     <div class="container">
         <h2>Review</h2>
         <br>
-        <form id="commentForm" action="CreateReviewServlet" method="post">
+        <form id="commentForm" action="CreateReviewServlet" method="post" onsubmit="return validateRating();">
             <input type="hidden" value="${auth.userId}" name="userId">
             <c:forEach var="bookingId" items="${bookingIds}">
                 <input type="hidden" value="${bookingId}" name="bookingId">
             </c:forEach>
-
-            <div class="form-group">
-                <label for="comment">Your Comment:</label>
-                <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <br>
-                <label for="rating">Your Rating:</label>
-                <div class="feedback">
-                    <div class="rating">
-                        <input type="radio" name="rating" id="rating-5" value="5">
-                        <label for="rating-5"></label>
-                        <input type="radio" name="rating" id="rating-4" value="4">
-                        <label for="rating-4"></label>
-                        <input type="radio" name="rating" id="rating-3" value="3">
-                        <label for="rating-3"></label>
-                        <input type="radio" name="rating" id="rating-2" value="2">
-                        <label for="rating-2"></label>
-                        <input type="radio" name="rating" id="rating-1" value="1">
-                        <label for="rating-1"></label>
+            <div class="border rounded p-3 mb-4" style="box-shadow: 12px 10px 10px rgba(0, 0, 0, 0.1);">
+                <div class="form-group">
+                    <label for="comment">Your Comment:</label>
+                    <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <br>
+                    <label for="rating">Your Rating:</label>
+                    <div class="feedback">
+                        <div class="rating">
+                            <input type="radio" name="rating" id="rating-5" value="5">
+                            <label for="rating-5"></label>
+                            <input type="radio" name="rating" id="rating-4" value="4">
+                            <label for="rating-4"></label>
+                            <input type="radio" name="rating" id="rating-3" value="3">
+                            <label for="rating-3"></label>
+                            <input type="radio" name="rating" id="rating-2" value="2">
+                            <label for="rating-2"></label>
+                            <input type="radio" name="rating" id="rating-1" value="1">
+                            <label for="rating-1"></label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </form>
     </div>
 </c:if>
-
 
 
 
@@ -351,9 +393,86 @@
                 window.addEventListener('load', function () {
                     displayCustomerReviews();
                 });
+                
+                
+                //--------------------------------------------------
+                
+                document.addEventListener("DOMContentLoaded", function() {
+                    const moreOptionsIcons = document.querySelectorAll(".more-options");
+
+                    // Function to close dropdowns when clicking outside
+                    function closeDropdowns() {
+                        moreOptionsIcons.forEach(function(icon) {
+                            icon.querySelector(".options-dropdown").style.display = "none";
+                        });
+                    }
+
+                    moreOptionsIcons.forEach(function(icon) {
+                        icon.addEventListener("click", function(event) {
+                            // Toggle options dropdown
+                            const dropdown = icon.querySelector(".options-dropdown");
+                            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+
+                            // Close other dropdowns if any
+                            moreOptionsIcons.forEach(function(otherIcon) {
+                                if (otherIcon !== icon) {
+                                    otherIcon.querySelector(".options-dropdown").style.display = "none";
+                                }
+                            });
+
+                            event.stopPropagation(); // Prevent bubbling to document
+                        });
+                    });
+
+                    // Close dropdowns when clicking outside
+                    document.addEventListener("click", function(event) {
+                        // Check if the click target is not inside the options dropdown
+                        if (!event.target.closest('.options-dropdown')) {
+                            closeDropdowns();
+                        }
+                    });
+
+                    // Add event listener for edit button
+                    const editButtons = document.querySelectorAll(".edit-btn");
+                    editButtons.forEach(function(button) {
+                        button.addEventListener("click", function() {
+                            // Get the review ID associated with the edit button
+                            var reviewId = button.getAttribute("data-review-id");
+
+                            // Redirect to the edit page with the review ID
+                            onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&action=update'";
+                            
+                        });
+                    });
+
+                    // Add event listener for delete button
+                    const deleteButtons = document.querySelectorAll(".delete-btn");
+                    deleteButtons.forEach(function(button) {
+                        button.addEventListener("click", function() {
+                            // Add your code to handle delete functionality here
+                            console.log("Delete button clicked");
+                        });
+                    });
+                });
+                //--------------------------
+
+    // Function to validate the rating selection before submitting the form
+    function validateRating() {
+        // Get all radio buttons with name="rating"
+        var ratingButtons = document.querySelectorAll('input[name="rating"]');
+
+        // Check if any radio button is checked
+        var isChecked = Array.from(ratingButtons).some(function(button) {
+            return button.checked;
+        });
+
+        // If no radio button is checked, display a warning message
+        if (!isChecked) {
+            alert("Please select a rating before submitting.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
             </script>
-            
-
     </body>
-
 </html>

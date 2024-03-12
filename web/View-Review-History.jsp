@@ -24,12 +24,6 @@
                     <hr class="border-light m-0">
                     <div class="card-body">
                         <h2 class="form-title">Review History</h2>
-                        <c:if test="${not empty succMsg}">
-                            <div class="alert alert-success" role="alert">
-                                ${succMsg}
-                            </div>
-                            <c:remove var="succMsg" scope="request" />
-                        </c:if>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>

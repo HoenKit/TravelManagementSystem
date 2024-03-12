@@ -71,11 +71,11 @@
                                     <c:remove var="failedMsg" scope="session" />
                                 </c:if>
                                 
-                                <c:if test="${not empty succMsg}">
+                                <c:if test="${not empty sucMsg}">
                                     <div class="alert alert-success" role="alert">
-                                    ${succMsg}
+                                    ${sucMsg}
                                     </div>
-                                    <c:remove var="succMsg" scope="request" />
+                                    <c:remove var="sucMsg" scope="request" />
                                 </c:if>
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
