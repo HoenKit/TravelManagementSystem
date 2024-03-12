@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,10 +21,17 @@ a { width: 100%; padding: 0.5rem; background-color: #f8f9fa; color: #007bff; bor
 </head>
 <body> 
     <br> 
-    <h1 class="text-center mb-4">Update Review</h1> 
+    <h1 class="text-center mb-4">Update Review</h1>
     <form action="UpdateReviewServlet" method="post"> 
+        <c:if test="${not empty succMsg}">
+        <div class="alert alert-success" role="alert">
+            ${succMsg}
+            </div>
+            <c:remove var="succMsg" scope="session" /> <!-- Remove the success message from session after displaying -->
+        </c:if>
         <input type="hidden" name="reviewId" value="${review.reviewId}" /> 
         <input type="hidden" name="bookingId" value="${review.booking.bookingId}" /> 
+
         
         <div class="form-group"> 
             <label for="tourname">Tour Name</label> 
@@ -35,11 +43,12 @@ a { width: 100%; padding: 0.5rem; background-color: #f8f9fa; color: #007bff; bor
         </div> 
         <div class="form-group"> 
             <label for="rating">Rating</label> 
-            <input type="number" id="rating" name="rating" value="${review.rating}" min="0" max="5" class="form-control" /> 
+            <input type="number" id="rating" name="rating" value="${review.rating}" min="1" max="5" class="form-control" /> 
         </div> 
        <div class="form-group">
             <input type="submit" class="btn btn-primary px-4" value="Update Review" /> &nbsp;
             <a type="submit" href="ViewReviewServlet?" class="btn btn-gray-dark">Back to Review History</a> 
+            <a type="submit" href="Detail?id=${review.booking.tour.tourId}" class="btn btn-gray-dark">Back to Tour Detail</a>
        </div> 
     </form> 
 </body> 

@@ -160,7 +160,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             HttpSession session = request.getSession();
             session.setAttribute("succMsg", "Update Review Successfully");
             // If the review is updated successfully, set success message and redirect to view review page    
-            response.sendRedirect("ViewReviewServlet?");
+            response.sendRedirect("UpdateReviewServlet?action=update&reviewId=" + reviewId);
           } else {
               // If update fails, redirect to error page
               response.sendRedirect("404.jsp");

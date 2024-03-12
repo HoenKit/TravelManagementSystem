@@ -38,11 +38,6 @@ public class ViewReviewServlet extends HttpServlet {
                 response.sendRedirect("View-Review-History.jsp");
                 return;
             } else {
-                // Check if the success message is present in the session and display it
-                if (session.getAttribute("succMsg") != null) {
-                    request.setAttribute("succMsg", session.getAttribute("succMsg"));
-                    session.removeAttribute("succMsg"); // Remove the attribute after displaying
-                }
                 request.setAttribute("reviews", reviews);
                 request.getRequestDispatcher("View-Review-History.jsp").forward(request, response);
             }
