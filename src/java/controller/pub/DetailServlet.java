@@ -90,6 +90,7 @@ public class DetailServlet extends HttpServlet {
                 int tourid = tour.getTourId();
                 int days = (int) ChronoUnit.DAYS.between(convertToLocalDate(tour.getStartDate()), convertToLocalDate(tour.getEndDate()));
                 request.setAttribute("tour", tour);
+                request.setAttribute("id", tourDateId);
                 request.setAttribute("days", days);
                 request.setAttribute("restaurants", rdao.getRestaurantByTourId(tourid));
                 request.setAttribute("transports", TransportationDAO.getTransportationByTourId(tourid));

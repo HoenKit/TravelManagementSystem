@@ -107,7 +107,7 @@
                     <div style="width: 50%; display: flex; align-items: center">
                         <div style="width: 50%;font-size: 70%; text-align: right; padding-right: 10px; color: red">$ ${tour.tourPrice}/guest</div>
                         <div style="width: 50%;font-size: 50%">
-                            <a href="OrderDetailServlet?id=${tour.tourId}" style="display: inline-block; text-align: center; border:solid 1px; padding: 10px; margin-bottom: 5px; width: 300px; background-color: red; color:white; border-radius: 3%"><i class="fa-solid fa-cart-shopping"></i> Book Now</a>
+                            <a href="OrderDetailServlet?id=${id}" style="display: inline-block; text-align: center; border:solid 1px; padding: 10px; margin-bottom: 5px; width: 300px; background-color: red; color:white; border-radius: 3%"><i class="fa-solid fa-cart-shopping"></i> Book Now</a>
                             
                         </div>
                     </div>
