@@ -24,6 +24,7 @@ public class CreateReviewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int tourDateId = Integer.parseInt(request.getParameter("id"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         int bookingId = Integer.parseInt(request.getParameter("bookingId"));
         String content = request.getParameter("content");
@@ -41,7 +42,7 @@ public class CreateReviewServlet extends HttpServlet {
 
                 if (success) {
                     // Chuyển hướng người dùng đến trang thành công hoặc trang chi tiết tour
-                    response.sendRedirect("Detail?id=" + tourId);
+                    response.sendRedirect("Detail?id=" + tourDateId);
                 } else {
                     // Xử lý nếu có lỗi xảy ra
                     response.sendRedirect("404.jsp");

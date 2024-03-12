@@ -264,6 +264,7 @@
         <br>
         <form id="commentForm" action="CreateReviewServlet" method="post" onsubmit="return validateRating();">
             <input type="hidden" value="${auth.userId}" name="userId">
+            <input type="hidden" value="${id}" name="id">
             <c:forEach var="bookingId" items="${bookingIds}">
                 <input type="hidden" value="${bookingId}" name="bookingId">
             </c:forEach>
