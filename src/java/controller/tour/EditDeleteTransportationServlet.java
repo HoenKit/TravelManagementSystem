@@ -158,21 +158,14 @@ public class EditDeleteTransportationServlet extends HttpServlet {
         try {
             int transportationId = Integer.parseInt(request.getParameter("transportationId"));
             String transportationName = request.getParameter("transportationName");
-            String departureTimeString = request.getParameter("departureTime");
-            String returnTimeString = request.getParameter("returnTime");
             Part filePart = request.getPart("image");
             String fileName = getFileName(filePart);
-            // Convert date strings to Date objects
-            Time departureTime = parseTime(departureTimeString);
-            Time returnTime = parseTime(returnTimeString);
             
             TransportationDAO transportationDAO = new TransportationDAO(DatabaseConnector.getConnection());
             Transportation newTransportation = transportationDAO.getTransportationById(transportationId);
             
             newTransportation.setTransportationId(transportationId);
             newTransportation.setTransportationName(transportationName);
-            newTransportation.setDepartureTime(departureTime);
-            newTransportation.setReturnTime(returnTime);
             
             // Check if a new file is selected
             if (!fileName.isEmpty()) {

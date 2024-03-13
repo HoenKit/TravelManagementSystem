@@ -91,8 +91,6 @@ public class CreateTransportationServlet extends HttpServlet {
           try {
             // Retrieve data from the form
             String transportationName = request.getParameter("transportationName");
-            String departureTimeString = request.getParameter("departureTime");
-            String returnTimeString = request.getParameter("returnTime");
              // Handling image upload
             Part filePart = request.getPart("image");
             String fileName = getFileName(filePart);
@@ -108,16 +106,11 @@ public class CreateTransportationServlet extends HttpServlet {
                 }
             }
 
-            // Convert date strings to Date objects
-            Time departureTime = parseTime(departureTimeString);
-            Time returnTime = parseTime(returnTimeString);
             // Convert price string to BigDecimal
 
             // Create a new Transportation object
             Transportation newTransportation = new Transportation();
             newTransportation.setTransportationName(transportationName);
-            newTransportation.setDepartureTime(departureTime);
-            newTransportation.setReturnTime(returnTime);
             newTransportation.setImageUrl(fileName);
 
             // Establish a database connection

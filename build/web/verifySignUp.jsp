@@ -39,6 +39,7 @@
                             <input type="hidden" value="${auth.phone}" name="phone">
                             <input type="hidden" value="${auth.address}" name="address">
                             <input type="hidden" value="${auth.role}" name="role">
+                            <input type="hidden" value="${auth.status}" name="status">
 
                             <div class="form-group form-button">
                                 <input type="submit" name="otp" id="otp" class="form-submit" value="Verify"/>

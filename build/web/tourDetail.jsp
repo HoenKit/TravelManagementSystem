@@ -165,7 +165,6 @@
                     <div style="padding: 10px; color: #d1d1d1; border: 1px solid;">
                         <div><c:forEach items="${transports}" var="t">
                                 <h3>${t.transportationName}</h3>
-                                <div>Time: ${t.departureTime} - ${t.returnTime}</div>
                                 <img alt="transportation image" src="images/${t.imageUrl}" style="width: 50%; margin-top: 10px; margin-bottom: 10px;" />
                             </c:forEach></div>
                         </div>

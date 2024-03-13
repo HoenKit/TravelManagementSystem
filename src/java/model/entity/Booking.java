@@ -19,6 +19,7 @@ public class Booking {
     private Date bookingDate;
     private int numberOfPeople;
     private BigDecimal totalPrice;
+    private String status;
 
     public Booking(int bookingId, Tour tour, User user, Date bookingDate, int numberOfPeople, BigDecimal totalPrice) {
         this.bookingId = bookingId;
@@ -31,9 +32,15 @@ public class Booking {
 
     public Booking() {
     }
-    
+
+    public String getStatus() {
+        return status;
+    }
 
     // Getters and Setters
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getBookingId() {
         return bookingId;

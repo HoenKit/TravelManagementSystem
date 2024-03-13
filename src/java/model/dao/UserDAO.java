@@ -87,12 +87,30 @@ public class UserDAO {
                 user.setAddress(resultSet.getString("address"));
                 user.setPhone(resultSet.getString("phone"));
                 user.setRole(resultSet.getString("role"));
+                user.setStatus(resultSet.getString("status"));
                 userList.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception appropriately
         }
         return userList;
+    }
+    
+     public boolean changeUserStatus(int userId, String newStatus) {
+        String query = "UPDATE Users SET status = ? WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, userId);
+
+            // Thực thi câu lệnh SQL để cập nhật trạng thái
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Kiểm tra xem câu lệnh đã thực hiện thành công hay không
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Trả về false nếu có lỗi xảy ra
+        }
     }
 
     public boolean updateUserProfile(User user) {
@@ -132,7 +150,7 @@ public class UserDAO {
     }
      */
     public void addUser(User user) {
-        String sql = "INSERT INTO Users (name, password, email, address, phone, role) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (name, password, email, address, phone, role, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
@@ -140,6 +158,7 @@ public class UserDAO {
             statement.setString(4, user.getAddress());
             statement.setString(5, user.getPhone());
             statement.setString(6, user.getRole());
+            statement.setString(7, user.getStatus());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -149,33 +168,10 @@ public class UserDAO {
 
     public void deleteUser(int userId) throws SQLException {
     Connection connection = null;
-    PreparedStatement deleteReviewStatement = null;
-    PreparedStatement deleteBillStatement = null;
-    PreparedStatement deleteBookingStatement = null;
     PreparedStatement deleteUserStatement = null;
 
     try {
         connection = DatabaseConnector.getConnection();
-        connection.setAutoCommit(false); // Bắt đầu một transaction
-
-        // Xoá tất cả các hóa đơn của người dùng từ bảng Bills
-        String deleteBillQuery = "DELETE FROM Bills WHERE booking_id IN (SELECT booking_id FROM Bookings WHERE user_id = ?)";
-        deleteBillStatement = connection.prepareStatement(deleteBillQuery);
-        deleteBillStatement.setInt(1, userId);
-        deleteBillStatement.executeUpdate();
-
-        // Xoá tất cả các đánh giá của người dùng từ bảng Reviews
-        String deleteReviewQuery = "DELETE FROM Reviews WHERE booking_id IN (SELECT booking_id FROM Bookings WHERE user_id = ?)";
-        deleteReviewStatement = connection.prepareStatement(deleteReviewQuery);
-        deleteReviewStatement.setInt(1, userId);
-        deleteReviewStatement.executeUpdate();
-
-        // Xoá tất cả các đặt phòng của người dùng từ bảng Bookings
-        String deleteBookingQuery = "DELETE FROM Bookings WHERE user_id = ?";
-        deleteBookingStatement = connection.prepareStatement(deleteBookingQuery);
-        deleteBookingStatement.setInt(1, userId);
-        deleteBookingStatement.executeUpdate();
-
         // Xoá người dùng từ bảng Users
         String deleteUserQuery = "DELETE FROM Users WHERE user_id = ?";
         deleteUserStatement = connection.prepareStatement(deleteUserQuery);
@@ -190,15 +186,6 @@ public class UserDAO {
         e.printStackTrace(); // Xử lý ngoại lệ một cách thích hợp
     } finally {
         // Đóng các resource
-        if (deleteBillStatement != null) {
-            deleteBillStatement.close();
-        }
-        if (deleteReviewStatement != null) {
-            deleteReviewStatement.close();
-        }
-        if (deleteBookingStatement != null) {
-            deleteBookingStatement.close();
-        }
         if (deleteUserStatement != null) {
             deleteUserStatement.close();
         }

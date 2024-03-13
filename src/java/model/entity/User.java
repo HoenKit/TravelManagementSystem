@@ -16,6 +16,7 @@ public class User {
     private String address;
     private String phone;
     private String role;
+    private String status;
 
     public User(int userId, String name, String password, String email, String address, String phone, String role) {
         this.userId = userId;
@@ -25,6 +26,16 @@ public class User {
         this.address = address;
         this.phone = phone;
         this.role = role;
+    }
+
+    public User(String name, String password, String email, String address, String phone, String role, String status) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.role = role;
+        this.status = status;
     }
     
 
@@ -56,8 +67,14 @@ public class User {
         this.role = role;
     }
 
-    
+    public String getStatus() {    
+        return status;
+    }
+
     // getters and setters
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getUserId() {
         return userId;

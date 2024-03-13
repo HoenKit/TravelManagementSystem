@@ -60,6 +60,7 @@ public class VerifyOTPServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String role = request.getParameter("role");
+        String status = request.getParameter("status");
         String userOTP = request.getParameter("otp");
         
 
@@ -75,7 +76,7 @@ public class VerifyOTPServlet extends HttpServlet {
                     UserDAO udao = new UserDAO(connection);
                     System.out.println(udao);
                     
-                    User user = new User(name, pass, email, address, phone, role);
+                    User user = new User(name, pass, email, address, phone, role, status);
                     udao.addUser(user);
                     
                     request.getSession().setAttribute("auth", user);
