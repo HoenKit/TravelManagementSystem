@@ -24,6 +24,21 @@ public class Customer {
         this.bookingId = bookingId;
     }
 
+    public Customer(int customerId, String name, String phone, String idCard) {
+        this.customerId = customerId;
+        this.name = name;
+        this.phone = phone;
+        this.idCard = idCard;
+    }
+
+    public Customer(String name, String phone, String idCard, int bookingId) {
+        this.name = name;
+        this.phone = phone;
+        this.idCard = idCard;
+        this.bookingId = bookingId;
+    }
+    
+
     // Getters and setters
     public int getCustomerId() {
         return customerId;

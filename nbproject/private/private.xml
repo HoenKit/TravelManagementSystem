@@ -3,12 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/tour/ManageUserServlet.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/Bill.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/verifySignUp.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/account/SignUpServlet.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/customer.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/Sign-up.jsp</file>
             <file>file:/F:/Code/TravelManagementSystem/src/java/controller/pub/BookingServlet.java</file>
-            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/account/CreateReviewServlet.java</file>
-            <file>file:/F:/Code/TravelManagementSystem/web/tourDetail.jsp</file>
-            <file>file:/F:/Code/TravelManagementSystem/src/java/model/dao/TourDAO.java</file>
-            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/pub/DetailServlet.java</file>
-            <file>file:/F:/Code/TravelManagementSystem/web/index.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/tour/AddCustomerServlet.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/model/entity/User.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/model/dao/CustomerDAO.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/model/dao/UserDAO.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/userList.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/pay.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/account/VerifyOTPServlet.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/web/ViewTourDetail.jsp</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/tour/DeleteCustomerServlet.java</file>
+            <file>file:/F:/Code/TravelManagementSystem/src/java/controller/tour/CreateBillServlet.java</file>
         </group>
     </open-files>
 </project-private>
