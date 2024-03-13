@@ -241,10 +241,12 @@
                             <!-- Three dots icon for more options -->
                             <div class="more-options">
                                 <span class="fa fa-ellipsis-h"></span>
+                                <c:if test="${not empty auth.userId and not empty review.booking.user.userId}">
                                 <div class="options-dropdown">
-                                    <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&action=update'" class="edit-btn">Edit</button>
-                                    <button class="delete-btn">Delete</button>  
+                                    <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&id=${id}&action=update'" class="edit-btn">Edit</button>
+                                    <button onclick="if(confirm('Are you sure you want to delete this review?')) location.href='UpdateReviewServlet?action=delete&reviewId=${review.reviewId}&id=${id}&action=delete'" type="button" class="delete-btn">Delete</button>    
                                 </div>
+                                </c:if>
                             </div>
                         </div>
                     </c:forEach>
@@ -298,10 +300,7 @@
         </form>
     </div>
 </c:if>
-
-
-
-
+<!-- END -->
 
 
             <!-- Process Start -->
@@ -424,6 +423,7 @@
                             event.stopPropagation(); // Prevent bubbling to document
                         });
                     });
+                   
 
                     // Close dropdowns when clicking outside
                     document.addEventListener("click", function(event) {
@@ -432,48 +432,28 @@
                             closeDropdowns();
                         }
                     });
+ });
+                    //--------------------------
 
-                    // Add event listener for edit button
-                    const editButtons = document.querySelectorAll(".edit-btn");
-                    editButtons.forEach(function(button) {
-                        button.addEventListener("click", function() {
-                            // Get the review ID associated with the edit button
-                            var reviewId = button.getAttribute("data-review-id");
 
-                            // Redirect to the edit page with the review ID
-                            onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&action=update'";
-                            
-                        });
-                    });
-
-                    // Add event listener for delete button
-                    const deleteButtons = document.querySelectorAll(".delete-btn");
-                    deleteButtons.forEach(function(button) {
-                        button.addEventListener("click", function() {
-                            // Add your code to handle delete functionality here
-                            console.log("Delete button clicked");
-                        });
-                    });
-                });
-                //--------------------------
-
-    // Function to validate the rating selection before submitting the form
+   
     function validateRating() {
-        // Get all radio buttons with name="rating"
-        var ratingButtons = document.querySelectorAll('input[name="rating"]');
+    // Get all radio buttons with name="rating"
+    var ratingButtons = document.querySelectorAll('input[name="rating"]');
 
-        // Check if any radio button is checked
-        var isChecked = Array.from(ratingButtons).some(function(button) {
-            return button.checked;
-        });
+    // Check if any radio button is checked
+    var isChecked = Array.from(ratingButtons).some(function(button) {
+        return button.checked;
+    });
 
-        // If no radio button is checked, display a warning message
-        if (!isChecked) {
-            alert("Please select a rating before submitting.");
-            return false; // Prevent form submission
-        }
-        return true; // Allow form submission
+    // If no radio button is checked, display a warning message
+    if (!isChecked) {
+        alert("Please select a rating before submitting.");
+        return false; // Prevent form submission
     }
+    return true; // Allow form submission
+}
+
             </script>
     </body>
 </html>

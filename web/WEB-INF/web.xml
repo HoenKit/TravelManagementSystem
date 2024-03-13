@@ -192,6 +192,10 @@
         <servlet-name>CreateReviewServlet</servlet-name>
         <servlet-class>controller.account.CreateReviewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditDeleteReviewServlet</servlet-name>
+        <servlet-class>controller.account.EditDeleteReviewServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/WelcomeServlet</url-pattern>
@@ -399,6 +403,10 @@
     <servlet-mapping>
         <servlet-name>CreateReviewServlet</servlet-name>
         <url-pattern>/CreateReviewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditDeleteReviewServlet</servlet-name>
+        <url-pattern>/EditDeleteReviewServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
