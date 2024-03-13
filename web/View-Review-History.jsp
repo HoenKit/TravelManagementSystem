@@ -42,9 +42,9 @@
                                         <td>${review.rating}</td>
                                         <td>
                                             <!-- Update button -->
-                                            <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&action=update'" class="btn btn-primary">Edit</button>
+                                            <button onclick="location.href='EditDeleteReviewServlet?action=update1&reviewId=${review.reviewId}&action=update1'" class="btn btn-primary">Edit</button>
                                             <!-- Delete button -->
-                                            <button onclick="if(confirm('Are you sure you want to delete this review?')) location.href='UpdateReviewServlet?action=delete&reviewId=${review.reviewId}&action=delete'" type="button" class="btn btn-danger">Delete</button>                        
+                                            <button onclick="if(confirm('Are you sure you want to delete this review?')) location.href='EditDeleteReviewServlet?action=delete1&reviewId=${review.reviewId}&action=delete1'" type="button" class="btn btn-danger">Delete</button>                        
                                         </td>
                                     </tr>
                                 </c:forEach>
