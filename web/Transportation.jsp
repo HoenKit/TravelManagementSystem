@@ -18,8 +18,6 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Departure Time</th>
-                        <th scope="col">Return Time</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -28,8 +26,6 @@
                         <tr>
                             <td>${transportation.transportationId}</td>
                             <td>${transportation.transportationName}</td>
-                            <td>${transportation.departureTime}</td>
-                            <td>${transportation.returnTime}</td>
                             <td>
                                 <!-- Update button -->
                                 <button onclick="location.href = 'EditDeleteTransportationServlet?transportationId=${transportation.transportationId}&action=update'" type="button" class="btn btn-warning">Update</button>

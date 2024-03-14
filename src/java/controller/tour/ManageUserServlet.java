@@ -65,6 +65,10 @@ public class ManageUserServlet extends HttpServlet {
     // Kiểm tra nếu yêu cầu là để xóa người dùng
     if ("delete".equals(request.getParameter("action"))) {
         deleteUser(request, response);
+    } else if ("ban".equals(request.getParameter("action"))) {
+        banUser(request, response);
+    } else if ("unban".equals(request.getParameter("action"))) {
+        unbanUser(request, response);
     } else { // Nếu không, tải danh sách người dùng
         loadUsers(request, response);
     }
@@ -85,6 +89,28 @@ public class ManageUserServlet extends HttpServlet {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+}
+   private void banUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Lấy userId từ request
+    int userId = Integer.parseInt(request.getParameter("userId"));
+    
+    // Tạo đối tượng UserDAO
+    UserDAO userDAO = new UserDAO(DatabaseConnector.getConnection());
+    
+    boolean success = userDAO.changeUserStatus(userId, "1");
+    // Chuyển hướng người dùng đến trang quản lý người dùng sau khi xóa thành công
+    response.sendRedirect("ManageUserServlet?");
+}
+   private void unbanUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Lấy userId từ request
+    int userId = Integer.parseInt(request.getParameter("userId"));
+    
+    // Tạo đối tượng UserDAO
+    UserDAO userDAO = new UserDAO(DatabaseConnector.getConnection());
+    
+    boolean success = userDAO.changeUserStatus(userId, "0");
+    // Chuyển hướng người dùng đến trang quản lý người dùng sau khi xóa thành công
+    response.sendRedirect("ManageUserServlet?");
 }
     
     private void loadUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

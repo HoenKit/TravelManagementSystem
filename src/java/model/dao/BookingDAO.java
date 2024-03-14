@@ -106,7 +106,7 @@ public class BookingDAO {
     }
 
     public int createBookingAndGetId(Booking booking) throws SQLException {
-        String sql = "INSERT INTO Bookings (tour_id, user_id, booking_date, number_of_people, total_price) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (tour_id, user_id, booking_date, number_of_people, total_price, status) VALUES (?, ?, ?, ?, ?, ?)";
         int bookingId = -1;
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, booking.getTour().getTourId());
@@ -114,6 +114,7 @@ public class BookingDAO {
             statement.setDate(3, new java.sql.Date(booking.getBookingDate().getTime()));
             statement.setInt(4, booking.getNumberOfPeople());
             statement.setBigDecimal(5, booking.getTotalPrice());
+            statement.setString(6, booking.getStatus());
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {

@@ -99,6 +99,7 @@ public class SignUpServlet extends HttpServlet {
             user.setPhone(phone);
             user.setAddress(address);
             user.setRole(role);
+            user.setStatus("0");
 
             // Create a UserDAO with the obtained connection
             UserDAO dao = new UserDAO(DatabaseConnector.getConnection());

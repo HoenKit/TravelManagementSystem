@@ -19,14 +19,6 @@
                 <input type="text" class="form-control" id="transportationName" name="transportationName" value="${transportation.transportationName}" required>
             </div>
             <div class="form-group">
-                <label for="departureTime">Departure Time:</label>
-                <input type="time" class="form-control" id="departureTime" name="departureTime" value="${transportation.departureTime}" required>
-            </div>
-            <div class="form-group">
-                <label for="returnTime">Return Time:</label>
-                <input type="time" class="form-control" id="returnTime" name="returnTime" value="${transportation.returnTime}" required>
-            </div>
-            <div class="form-group">
                 <label for="image">Current Image:</label><br>
                 <img src="images/${transportation.imageUrl}" alt="Transportation Image" width="100">
             </div>

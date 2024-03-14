@@ -192,6 +192,22 @@
         <servlet-name>CreateReviewServlet</servlet-name>
         <servlet-class>controller.account.CreateReviewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditDeleteReviewServlet</servlet-name>
+        <servlet-class>controller.account.EditDeleteReviewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddCustomerServlet</servlet-name>
+        <servlet-class>controller.tour.AddCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <servlet-class>controller.tour.DeleteCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateBillServlet</servlet-name>
+        <servlet-class>controller.tour.CreateBillServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/WelcomeServlet</url-pattern>
@@ -399,6 +415,22 @@
     <servlet-mapping>
         <servlet-name>CreateReviewServlet</servlet-name>
         <url-pattern>/CreateReviewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditDeleteReviewServlet</servlet-name>
+        <url-pattern>/EditDeleteReviewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCustomerServlet</servlet-name>
+        <url-pattern>/AddCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <url-pattern>/DeleteCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateBillServlet</servlet-name>
+        <url-pattern>/CreateBillServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

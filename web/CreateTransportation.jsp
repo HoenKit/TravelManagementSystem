@@ -21,16 +21,6 @@
                 <label for="transportationName">Transportation Name:</label>
                 <input type="text" id="transportationName" name="transportationName" class="form-control" required>
             </div>
-
-            <div class="form-group">
-                <label for="departureTime">Departure Time:</label>
-                <input type="time" id="departureTime" name="departureTime" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="returnTime">Return Time:</label>
-                <input type="time" id="returnTime" name="returnTime" class="form-control" required>
-            </div>
             <br>
             <div class="form-group">
                 <label for="image">Image:</label>

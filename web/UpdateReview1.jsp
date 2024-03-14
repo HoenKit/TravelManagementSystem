@@ -22,7 +22,7 @@ a { width: 100%; padding: 0.5rem; background-color: #f8f9fa; color: #007bff; bor
 <body> 
     <br> 
     <h1 class="text-center mb-4">Update Review</h1>
-    <form action="UpdateReviewServlet" method="post"> 
+    <form action="EditDeleteReviewServlet" method="post"> 
         <c:if test="${not empty succMsg}">
         <div class="alert alert-success" role="alert">
             ${succMsg}
@@ -49,7 +49,7 @@ a { width: 100%; padding: 0.5rem; background-color: #f8f9fa; color: #007bff; bor
         </div> 
        <div class="form-group">
             <input type="submit" class="btn btn-primary px-4" value="Update Review" /> &nbsp;
-            <a href="Detail?id=${id}" class="btn btn-gray-dark">Back to Tour Detail</a>    
+            <a type="submit" href="ViewReviewServlet?" class="btn btn-gray-dark">Back to Review History</a>
        </div> 
     </form> 
 </body> 

@@ -134,16 +134,12 @@
                 <tr>
                     <th>Transportation ID</th>
                     <th>Transportation Name</th>
-                    <th>Departure Time</th>
-                    <th>Return Time</th>
                     <th>Image</th>
                 </tr>
                 <c:forEach var="transportation" items="${transportations}">
                     <tr>
                         <td>${transportation.transportationId}</td>
                         <td>${transportation.transportationName}</td>
-                        <td>${transportation.departureTime}</td>
-                        <td>${transportation.returnTime}</td>
                         <td><img src="images/${transportation.imageUrl}" alt="Transportation Image" width="100"></td>
                     </tr>
                 </c:forEach>

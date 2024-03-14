@@ -6,8 +6,6 @@ package controller.account;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,7 +21,7 @@ import model.entity.Review;
  *
  * @author NPB
  */
-public class UpdateReviewServlet extends HttpServlet {
+public class EditDeleteReviewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class UpdateReviewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateReviewServlet</title>");            
+            out.println("<title>Servlet EditDeleteReview</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateReviewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditDeleteReview at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +58,7 @@ public class UpdateReviewServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+      @Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -69,11 +67,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 case "update1":
                     updateReview1(request, response);
                     break;
-                case "update":
-                    updateReview(request, response);
-                    break;
-                case "delete":
-                    deleteReview(request, response);
+                case "delete1":
+                    deleteReview1(request, response);
                     break;
                 default:
                     response.sendRedirect("404.jsp");
@@ -104,38 +99,7 @@ private void updateReview1(HttpServletRequest request, HttpServletResponse respo
         
 
         // Chuyển hướng đến trang cập nhật thông tin đánh giá, nơi có thể hiển thị thông tin và cho phép người dùng cập nhật
-        RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateReview.jsp");
-        dispatcher.forward(request, response);
-    } catch (SQLException ex) {
-        java.util.logging.Logger.getLogger(UpdateReviewServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-
-}
-
-private void updateReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    try {
-        int reviewId = Integer.parseInt(request.getParameter("reviewId"));
-        int tourDateId = Integer.parseInt(request.getParameter("id")); // Get tourDateId parameter
-
-        // Tạo đối tượng ReviewDAO
-        ReviewDAO reviewDAO = new ReviewDAO(DatabaseConnector.getConnection());
-
-        // Gọi phương thức getReviewById từ ReviewDAO để lấy thông tin của đánh giá
-        Review review = reviewDAO.getReviewById(reviewId);
-
-        // Kiểm tra nếu đánh giá không tồn tại, chuyển hướng đến trang 404
-        if (review == null) {
-            response.sendRedirect("404.jsp");
-            return;
-        }
-        request.setAttribute("id", tourDateId);
-        // Lưu thông tin của đánh giá vào request attribute để hiển thị trên trang jsp
-        request.setAttribute("review", review);
-        
-
-        // Chuyển hướng đến trang cập nhật thông tin đánh giá, nơi có thể hiển thị thông tin và cho phép người dùng cập nhật
-        RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateReview.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateReview1.jsp");
         dispatcher.forward(request, response);
     } catch (SQLException ex) {
         java.util.logging.Logger.getLogger(UpdateReviewServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -144,9 +108,9 @@ private void updateReview(HttpServletRequest request, HttpServletResponse respon
 }
 
 
-    private void deleteReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    private void deleteReview1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int tourDateId = Integer.parseInt(request.getParameter("id"));
             // Lấy reviewId từ request parameter
             int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 
@@ -157,7 +121,7 @@ private void updateReview(HttpServletRequest request, HttpServletResponse respon
             reviewDAO.deleteReview(reviewId);
 
             // Chuyển hướng đến trang danh sách đánh giá sau khi xóa thành công
-            response.sendRedirect("Detail?id=" + tourDateId);
+            response.sendRedirect("ViewReviewServlet?");
         } catch (NumberFormatException | SQLException ex) {
             ex.printStackTrace();
             response.sendRedirect("404.jsp");
@@ -176,7 +140,6 @@ private void updateReview(HttpServletRequest request, HttpServletResponse respon
             throws ServletException, IOException {
     try {
           // Retrieve parameters from the request
-          int tourDateId =Integer.parseInt(request.getParameter("id"));
           int reviewId = Integer.parseInt(request.getParameter("reviewId"));
           String content = request.getParameter("content");
           int rating = Integer.parseInt(request.getParameter("rating"));
@@ -194,9 +157,8 @@ private void updateReview(HttpServletRequest request, HttpServletResponse respon
           if (updated) {
             HttpSession session = request.getSession();
             session.setAttribute("succMsg", "Update Review Successfully");
-            request.setAttribute("id", tourDateId);
             // If the review is updated successfully, set success message and redirect to view review page    
-            response.sendRedirect("UpdateReviewServlet?action=update&reviewId=" + reviewId + "&id=" + tourDateId);
+            response.sendRedirect("EditDeleteReviewServlet?action=update1&reviewId=" + reviewId);
           } else {
               // If update fails, redirect to error page
               response.sendRedirect("404.jsp");

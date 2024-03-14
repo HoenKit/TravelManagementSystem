@@ -6,6 +6,7 @@ package controller.tour;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,17 +16,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dao.BillDAO;
 import model.dao.CustomerDAO;
 import model.database.DatabaseConnector;
-import model.entity.Bill;
 import model.entity.Customer;
 
 /**
  *
  * @author ADMIN
  */
-public class ViewBillDetailServlet extends HttpServlet {
+public class DeleteCustomerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +43,10 @@ public class ViewBillDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewBillDetailServlet</title>");
+            out.println("<title>Servlet DeleteCustomerServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewBillDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteCustomerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,40 +63,34 @@ public class ViewBillDetailServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy customerId từ request
+        int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        int people = Integer.parseInt(request.getParameter("people"));
+        BigDecimal totalPrice = new BigDecimal(request.getParameter("totalPrice"));
+
+        // Gọi phương thức deleteCustomer từ CustomerDAO để xóa khách hàng
+        CustomerDAO customerDAO = new CustomerDAO(DatabaseConnector.getConnection());
         try {
-            // Lấy billId từ request parameter
-            int billId = Integer.parseInt(request.getParameter("billId"));
-
-            // Tạo đối tượng BillDAO
-            BillDAO billDAO = new BillDAO(DatabaseConnector.getConnection());
-
-            // Gọi phương thức getBillById từ BillDAO để lấy thông tin của hóa đơn
-            Bill bill = billDAO.getBillById(billId);
-            int bookingId = bill.getBooking().getBookingId();
-            CustomerDAO customerDAO = new CustomerDAO(DatabaseConnector.getConnection());
-            List<Customer> customers = customerDAO.getCustomerByBookingId(bookingId);
-
-            // Set the retrieved customers as an attribute in the request scope
-            request.setAttribute("customers", customers);
-
-            // Kiểm tra nếu hóa đơn không tồn tại, chuyển hướng đến trang 404
-            if (bill == null) {
-                response.sendRedirect("404.jsp");
-                return;
-            }
-
-            // Lưu thông tin của hóa đơn vào request attribute để hiển thị trên trang jsp
-            request.setAttribute("bill", bill);
-
-            // Chuyển hướng đến trang hiển thị chi tiết hóa đơn
-            RequestDispatcher dispatcher = request.getRequestDispatcher("BillDetail.jsp");
-            dispatcher.forward(request, response);
-        } catch (SQLException | NumberFormatException ex) {
-            // Xử lý ngoại lệ SQLException
-            ex.printStackTrace();
-            response.sendRedirect("404.jsp");
+            customerDAO.deleteCustomer(customerId);
+            // Nếu xóa thành công, chuyển hướng lại trang hiển thị danh sách khách hàng
+            List<Customer> customerList = customerDAO.getCustomerByBookingId(bookingId);
+            request.setAttribute("people", people);
+            request.setAttribute("email", email);
+            request.setAttribute("name", name);
+            request.setAttribute("totalPrice", totalPrice);
+            request.setAttribute("bookingId", bookingId);
+            request.setAttribute("customerList", customerList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/customer.jsp");
+        dispatcher.forward(request, response);
+        } catch (SQLException e) {
+            // Xử lý ngoại lệ nếu có lỗi xảy ra
+            e.printStackTrace();
+            // Có thể điều hướng đến một trang lỗi hoặc hiển thị thông báo lỗi cho người dùng
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error deleting customer");
         }
-        
     }
 
     /**
