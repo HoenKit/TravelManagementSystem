@@ -88,7 +88,14 @@ public class CreateBillServlet extends HttpServlet {
             String paymentDateStr = request.getParameter("paymentDate");
             String paymentMethod = request.getParameter("paymentMethod");
 
-            Date paymentDate = parseDate(paymentDateStr);
+            Date paymentDate = null;
+            if(paymentDateStr == null || paymentDateStr.isEmpty()) {
+                // Nếu paymentDateStr là null hoặc rỗng, lấy ngày tháng hiện tại
+                paymentDate = new Date();
+            } else {
+                // Ngược lại, chuyển đổi paymentDateStr thành java.sql.Date
+                paymentDate = parseDate(paymentDateStr);
+            }
 
             // Tạo đối tượng Bill từ thông tin đã lấy được
             Booking bk = new Booking();
