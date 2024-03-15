@@ -22,8 +22,12 @@
                     <input type="hidden" id="totalPrice" name="totalPrice" value="${param.totalPrice}" />
                     <input type="hidden" id="bookingId" name="bookingId" value="${param.bookingId}">
                     <div class="form-group">
+                        <label for="totalPrice">Total Price</label>
+                        <input type="text" id="totalPrice" name="totalPrice" value="${param.totalPrice}" readonly>
+                    </div>
+                    <br>
+                    <div class="form-group">
                         <label for="paymentDate">Payment Date</label>
-                        <i class="fas fa-credit-card"></i>
                         <input type="date" id="paymentDate" name="paymentDate" required>
                     </div>
                     <br>

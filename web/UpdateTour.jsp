@@ -11,7 +11,6 @@
         <br>
          <form id="updateTourForm" action="EditDeleteTourServlet" method="post" enctype="multipart/form-data">
             <div class="container">
-                <h2>Update Tour</h2>
                 <br>
                 <br>
                 <input type="hidden" name="tourId" value="${tour.tourId}">

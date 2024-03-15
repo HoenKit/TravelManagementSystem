@@ -21,6 +21,11 @@
                         <input type="hidden" id="email" name="email" value="${email}" />
                         <input type="hidden" id="totalPrice" name="totalPrice" value="${totalPrice}" />
                         <div class="form-group">
+                        <label for="totalPrice">Total Price</label>
+                        <input type="text" id="totalPrice" name="totalPrice" value="${param.totalPrice}" readonly>
+                    </div>
+                    <br>
+                        <div class="form-group">
                             <label for="card-number">Card number</label>
                             <i class="fas fa-credit-card"></i>
                             <input type="text" class="form-control" name="card_number" id="card-number" placeholder="Enter your card number" required pattern="[0-9]{16}" title="Card number must be 16 digits">

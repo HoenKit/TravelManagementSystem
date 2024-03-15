@@ -208,6 +208,22 @@
         <servlet-name>CreateBillServlet</servlet-name>
         <servlet-class>controller.tour.CreateBillServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookingFullServlet</servlet-name>
+        <servlet-class>controller.pub.BookingFullServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageBookingServlet</servlet-name>
+        <servlet-class>controller.tour.ManageBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingApprovalServlet</servlet-name>
+        <servlet-class>controller.tour.BookingApprovalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingRejectionServlet</servlet-name>
+        <servlet-class>controller.tour.BookingRejectionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/WelcomeServlet</url-pattern>
@@ -431,6 +447,22 @@
     <servlet-mapping>
         <servlet-name>CreateBillServlet</servlet-name>
         <url-pattern>/CreateBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingFullServlet</servlet-name>
+        <url-pattern>/BookingFullServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageBookingServlet</servlet-name>
+        <url-pattern>/ManageBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingApprovalServlet</servlet-name>
+        <url-pattern>/BookingApprovalServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingRejectionServlet</servlet-name>
+        <url-pattern>/BookingRejectionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

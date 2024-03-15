@@ -8,7 +8,6 @@
         <%@ include file="includes/header.jsp" %>
     </head>
     <body>
-        <%@ include file="includes/navbar.jsp" %>
         <br>
         <br>
         <div class="container">
@@ -54,11 +53,13 @@
                     </div>
                     <div style="width: 50%; padding: 20px">
                         <label>Phone</label><span style="color: red">*</span>
-                        <input name="phone" class="form-control"/>
+                        <input name="phone" id="phone" class="form-control"/>
+                        <span id="phoneError" style="color: red; display: none;">Please enter a valid phone number.</span>
                     </div>
                     <div style="width: 50%; padding: 20px">
                         <label>ID Card</label>
                         <input id="idCard" name="idCard" class="form-control"/>
+                        <span id="idCardError" style="color: red; display: none;">Please enter a valid ID card number.</span>
                     </div>
                 </div>
                 <br>
@@ -161,6 +162,30 @@
                     // Thực hiện chuyển hướng đến servlet để xóa khách hàng
                     window.location.href = 'DeleteCustomerServlet?customerId=' + customerIdToDelete + '&bookingId=' + bookingIdToDelete + '&name=' + name + '&email=' + email + '&totalPrice=' + totalPrice + '&people=' + people;
                 });
+                function validateForm() {
+                    var phone = document.getElementById("phone").value;
+                    var idCard = document.getElementById("idCard").value;
+
+                    // Validation for phone number
+                    var phonePattern = /^\d{10}$/; // Change this pattern according to your phone number format
+                    if (!phonePattern.test(phone)) {
+                        document.getElementById("phoneError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("phoneError").style.display = "none";
+                    }
+
+                    // Validation for ID card
+                    var idCardPattern = /^[0-9]{9,12}$/; // Change this pattern according to your ID card format
+                    if (!idCardPattern.test(idCard)) {
+                        document.getElementById("idCardError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("idCardError").style.display = "none";
+                    }
+
+                    return true;
+                }
         </script>
 
     </body>
