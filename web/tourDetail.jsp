@@ -247,15 +247,15 @@
                                 <br>
                             </div>
                             <!-- Three dots icon for more options -->
+                            <c:if test="${not empty auth.userId && auth.userId == review.booking.user.userId}">
                             <div class="more-options">
                                 <span class="fa fa-ellipsis-h"></span>
-                                <c:if test="${not empty auth.userId and not empty review.booking.user.userId}">
                                 <div class="options-dropdown">
                                     <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&id=${id}&action=update'" class="edit-btn">Edit</button>
                                     <button onclick="if(confirm('Are you sure you want to delete this review?')) location.href='UpdateReviewServlet?action=delete&reviewId=${review.reviewId}&id=${id}&action=delete'" type="button" class="delete-btn">Delete</button>    
                                 </div>
-                                </c:if>
                             </div>
+                                </c:if>
                         </div>
                     </c:forEach>
                 </div>   

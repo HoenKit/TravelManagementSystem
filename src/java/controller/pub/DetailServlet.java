@@ -103,7 +103,22 @@ public class DetailServlet extends HttpServlet {
                 request.setAttribute("transports", TransportationDAO.getTransportationByTourId(tourid));
                 request.setAttribute("hotels", hd.getHotelByTourId(tourid));
                 request.setAttribute("activities", ad.getActivityScheduleList(tourid));
-
+                
+                //Check Status reviews
+                boolean CheckStatus = reviewDAO.checkReviewsByUserStatus("0");
+                if(!"0".equals(CheckStatus)){
+                List<Review> reviews = reviewDAO.getAllReviewsWithStatusZero( tourid);
+                request.setAttribute("reviews", reviews);
+                    
+                Booking latestBooking = bookingDAO.getLatestBookingByTourId(userId, tourid);
+                if (latestBooking != null) {
+                    List<Integer> bookingIds = new ArrayList<>();
+                    bookingIds.add(latestBooking.getBookingId());
+                    request.setAttribute("bookingIds", bookingIds);
+                }
+                request.getRequestDispatcher("tourDetail.jsp").forward(request, response);
+                
+                }else{
                 // Retrieve reviews based on the tour ID
                 List<Review> reviews = reviewDAO.getAllReviewsByTourId(tourid);
 
@@ -116,9 +131,9 @@ public class DetailServlet extends HttpServlet {
                     bookingIds.add(latestBooking.getBookingId());
                     request.setAttribute("bookingIds", bookingIds);
                 }
-
+                
                 request.getRequestDispatcher("tourDetail.jsp").forward(request, response);
-
+                }  
             } else {
                 response.sendRedirect("404.jsp");
             }

@@ -91,20 +91,25 @@ public class UserServlet extends HttpServlet {
 
                     }
 			if (user != null) {
+                            String status = udao.getUserStatus(email);
+                            if (!"0".equals(status)) {
+                            // Trạng thái của người dùng không phải là "0", tức là người dùng bị cấm
+                            request.setAttribute("mess", "Your account has been banned. Please contact the administrator for assistance.");
+                            request.getRequestDispatcher("login.jsp").forward(request, response);
+                        } else {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("userId", user.getUserId());
 				session.setAttribute("auth", user);
-                                
 //				System.out.print("user logged in");
 				response.sendRedirect("Home");
+                            }
 			} else {
-                                request.setAttribute("mess","Wrong Name or Password, please try again!");
+                                request.setAttribute("mess","Wrong Email or Password, please try again!");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
                                 
 			}
 
 		    }
-
     }
     
     /**

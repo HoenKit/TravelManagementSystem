@@ -292,4 +292,20 @@ public class UserDAO {
             return false;
         }
     }
+    
+    public String getUserStatus(String email) {
+        String status = null;
+        String sql = "SELECT status FROM Users WHERE email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    status = rs.getString("status");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 }
