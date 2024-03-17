@@ -22,17 +22,21 @@
                     <input type="hidden" id="totalPrice" name="totalPrice" value="${param.totalPrice}" />
                     <input type="hidden" id="bookingId" name="bookingId" value="${param.bookingId}">
                     <div class="form-group">
+                        <label for="totalPrice">Total Price</label>
+                        <input type="text" id="totalPrice" name="totalPrice" value="${param.totalPrice}" readonly>
+                    </div>
+                    <br>
+                    <div class="form-group">
                         <label for="paymentDate">Payment Date</label>
-                        <i class="fas fa-credit-card"></i>
                         <input type="date" id="paymentDate" name="paymentDate" required>
                     </div>
-
+                    <br>
                     <label for="paymentMethod">Payment Method:</label>
                     <select id="paymentMethod" name="paymentMethod" required>
                         <option value="Cash">Cash</option>
                         <option value="Visa Card">Visa Card</option>
                     </select>
-
+                    <br>
                     <br>
                     <div style="text-align: center;">
                         <!-- Add onclick event to call JavaScript function -->

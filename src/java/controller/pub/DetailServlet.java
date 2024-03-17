@@ -7,6 +7,7 @@ package controller.pub;
 import static helper.Helper.convertToLocalDate;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -89,6 +90,12 @@ public class DetailServlet extends HttpServlet {
             if (tour != null) {
                 int tourid = tour.getTourId();
                 int days = (int) ChronoUnit.DAYS.between(convertToLocalDate(tour.getStartDate()), convertToLocalDate(tour.getEndDate()));
+                BigDecimal tourPrice = tour.getTourPrice();
+                BigDecimal maxCapacity = new BigDecimal(tour.getMaxCapacity());
+                BigDecimal percent = new BigDecimal("0.25"); // 25%
+
+                BigDecimal fullPrice = tourPrice.multiply(maxCapacity).subtract(tourPrice.multiply(maxCapacity).multiply(percent));
+                request.setAttribute("fullPrice", fullPrice);
                 request.setAttribute("tour", tour);
                 request.setAttribute("id", tourDateId);
                 request.setAttribute("days", days);
@@ -96,7 +103,22 @@ public class DetailServlet extends HttpServlet {
                 request.setAttribute("transports", TransportationDAO.getTransportationByTourId(tourid));
                 request.setAttribute("hotels", hd.getHotelByTourId(tourid));
                 request.setAttribute("activities", ad.getActivityScheduleList(tourid));
-
+                
+                //Check Status reviews
+                boolean CheckStatus = reviewDAO.checkReviewsByUserStatus("0");
+                if(!"0".equals(CheckStatus)){
+                List<Review> reviews = reviewDAO.getAllReviewsWithStatusZero( tourid);
+                request.setAttribute("reviews", reviews);
+                    
+                Booking latestBooking = bookingDAO.getLatestBookingByTourId(userId, tourid);
+                if (latestBooking != null) {
+                    List<Integer> bookingIds = new ArrayList<>();
+                    bookingIds.add(latestBooking.getBookingId());
+                    request.setAttribute("bookingIds", bookingIds);
+                }
+                request.getRequestDispatcher("tourDetail.jsp").forward(request, response);
+                
+                }else{
                 // Retrieve reviews based on the tour ID
                 List<Review> reviews = reviewDAO.getAllReviewsByTourId(tourid);
 
@@ -111,7 +133,7 @@ public class DetailServlet extends HttpServlet {
                 }
                 
                 request.getRequestDispatcher("tourDetail.jsp").forward(request, response);
-                
+                }  
             } else {
                 response.sendRedirect("404.jsp");
             }

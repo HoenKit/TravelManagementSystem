@@ -71,6 +71,65 @@ public class BookingDAO {
         return booking;
     }
 
+    public List<Booking> getBookingByStatus(String status) throws SQLException {
+        List<Booking> bookings = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String query = "SELECT * FROM Bookings WHERE status = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, status);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Booking booking = new Booking();
+                booking.setBookingId(resultSet.getInt("booking_id"));
+
+                // Get and set tour information
+                TourDAO tourDAO = new TourDAO(connection);
+                Tour tour = tourDAO.getTourById(resultSet.getInt("tour_id"));
+                booking.setTour(tour);
+
+                // Get and set user information
+                UserDAO userDAO = new UserDAO(connection);
+                User user = userDAO.getUserById(resultSet.getInt("user_id"));
+                booking.setUser(user);
+
+                booking.setBookingDate(resultSet.getDate("booking_date"));
+                booking.setNumberOfPeople(resultSet.getInt("number_of_people"));
+                booking.setTotalPrice(resultSet.getBigDecimal("total_price"));
+                booking.setStatus(status);
+
+                bookings.add(booking);
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        }
+
+        return bookings;
+    }
+
+    public void changeBookingStatus(int bookingId, String newStatus) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            String query = "UPDATE Bookings SET status = ? WHERE booking_id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, newStatus);
+            statement.setInt(2, bookingId);
+            statement.executeUpdate();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
     public List<Booking> getBookingsByUserId(int userId) throws SQLException {
         List<Booking> bookings = new ArrayList<>();
         String query = "SELECT b.booking_id, b.number_of_people, b.total_price, b.booking_date, "
@@ -131,51 +190,47 @@ public class BookingDAO {
         }
         return bookingId;
     }
-    
-public Booking getLatestBookingByTourId(int userId, int tourId) throws SQLException {
-     Booking latestBooking = null;
-    PreparedStatement statement = null;
-    ResultSet resultSet = null;
 
-    try {
-        String query = "SELECT TOP 1 * FROM Bookings WHERE user_id = ? AND tour_id = ? ORDER BY booking_date DESC";
-        statement = connection.prepareStatement(query);
-        statement.setInt(1, userId);
-        statement.setInt(2, tourId);
-        resultSet = statement.executeQuery();
+    public Booking getLatestBookingByTourId(int userId, int tourId) throws SQLException {
+        Booking latestBooking = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
-        if (resultSet.next()) {
-            latestBooking = new Booking();
-            latestBooking.setBookingId(resultSet.getInt("booking_id"));
+        try {
+            String query = "SELECT TOP 1 * FROM Bookings WHERE user_id = ? AND tour_id = ? ORDER BY booking_date DESC";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, tourId);
+            resultSet = statement.executeQuery();
 
-            // Get and set tour information
-            TourDAO tourDAO = new TourDAO(connection);
-            Tour tour = tourDAO.getTourById(resultSet.getInt("tour_id"));
-            latestBooking.setTour(tour);
+            if (resultSet.next()) {
+                latestBooking = new Booking();
+                latestBooking.setBookingId(resultSet.getInt("booking_id"));
 
-            // Get and set user information
-            UserDAO userDAO = new UserDAO(connection);
-            User user = userDAO.getUserById(resultSet.getInt("user_id"));
-            latestBooking.setUser(user);
+                // Get and set tour information
+                TourDAO tourDAO = new TourDAO(connection);
+                Tour tour = tourDAO.getTourById(resultSet.getInt("tour_id"));
+                latestBooking.setTour(tour);
 
-            latestBooking.setBookingDate(resultSet.getDate("booking_date"));
-            latestBooking.setNumberOfPeople(resultSet.getInt("number_of_people"));
-            latestBooking.setTotalPrice(resultSet.getBigDecimal("total_price"));
+                // Get and set user information
+                UserDAO userDAO = new UserDAO(connection);
+                User user = userDAO.getUserById(resultSet.getInt("user_id"));
+                latestBooking.setUser(user);
+
+                latestBooking.setBookingDate(resultSet.getDate("booking_date"));
+                latestBooking.setNumberOfPeople(resultSet.getInt("number_of_people"));
+                latestBooking.setTotalPrice(resultSet.getBigDecimal("total_price"));
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
         }
-    } finally {
-        if (resultSet != null) {
-            resultSet.close();
-        }
-        if (statement != null) {
-            statement.close();
-        }
+
+        return latestBooking;
     }
-
-    return latestBooking;
-}
-
-
-
-
 
 }

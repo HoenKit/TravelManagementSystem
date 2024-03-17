@@ -45,6 +45,7 @@
                         <a href="ManageHotelsServlet?" class="dropdown-item">Hotels</a>
                         <a href="ManageRestaurantServlet?" class="dropdown-item">Restaurants</a>
                         <a href="ManageReviewServlet?" class="dropdown-item">Reviews</a>
+                        <a href="ManageBookingServlet?" class="dropdown-item">Booking</a>
                         <a href="BillServlet?" class="dropdown-item">Bills</a>
                         <a href="ManageUserServlet?" class="dropdown-item">Users</a>
                     </div>

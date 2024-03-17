@@ -46,6 +46,10 @@
                             <i></i> <span class="ms-1 d-none d-sm-inline">Manage Review</span> </a>
                     </li>
                     <li>
+                        <a href="ManageBookingServlet" class="nav-link px-0 align-middle">
+                            <i></i> <span class="ms-1 d-none d-sm-inline">Manage Booking</span> </a>
+                    </li>
+                    <li>
                         <a href="BillServlet" class="nav-link px-0 align-middle">
                             <i></i> <span class="ms-1 d-none d-sm-inline">Manage Bill</span> </a>
                     </li>

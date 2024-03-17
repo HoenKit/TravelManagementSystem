@@ -6,10 +6,7 @@ package controller.tour;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.BillDAO;
+import model.dao.BookingDAO;
 import model.database.DatabaseConnector;
 import model.entity.Bill;
 import model.entity.Booking;
@@ -26,7 +24,7 @@ import model.entity.Booking;
  *
  * @author ADMIN
  */
-public class CreateBillServlet extends HttpServlet {
+public class BookingApprovalServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +43,10 @@ public class CreateBillServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateBillServlet</title>");
+            out.println("<title>Servlet BookingApprovalServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateBillServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BookingApprovalServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,63 +76,35 @@ public class CreateBillServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy bookingId từ request
+        int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+        
+        // Gọi phương thức changeBookingStatus để cập nhật trạng thái của booking sang "Approved"
         try {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            BigDecimal totalPrice = new BigDecimal(request.getParameter("totalPrice"));
-            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-            String paymentDateStr = request.getParameter("paymentDate");
-            String paymentMethod = request.getParameter("paymentMethod");
-
-            Date paymentDate = null;
-            if(paymentDateStr == null || paymentDateStr.isEmpty()) {
-                // Nếu paymentDateStr là null hoặc rỗng, lấy ngày tháng hiện tại
-                paymentDate = new Date();
-            } else {
-                // Ngược lại, chuyển đổi paymentDateStr thành java.sql.Date
-                paymentDate = parseDate(paymentDateStr);
-            }
-
-            // Tạo đối tượng Bill từ thông tin đã lấy được
+            BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
+            bookingDAO.changeBookingStatus(bookingId, "0");
+            Date paymentDate = new Date();
             Booking bk = new Booking();
             bk.setBookingId(bookingId);
+            
             Bill bill = new Bill();
             bill.setBooking(bk); // Đặt booking cho hóa đơn
             bill.setPaymentDate(paymentDate);
-            bill.setPaymentMethod(paymentMethod);
+            bill.setPaymentMethod("Book Full");
 
             BillDAO billDAO = new BillDAO(DatabaseConnector.getConnection());
 
             // Insert the new bill into the database
             billDAO.createBill(bill);
-            request.setAttribute("email", email);
-            request.setAttribute("name", name);
-            request.setAttribute("totalPrice", totalPrice);
-
-            // Check payment method to determine redirect destination
-            if ("Cash".equalsIgnoreCase(paymentMethod)) {
-                // Redirect to home page if payment method is cash
-                response.sendRedirect("Home");
-            } else {
-                // Redirect to pay.jsp if payment method is not cash
-                request.getRequestDispatcher("pay.jsp").forward(request, response);
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateBillServlet.class.getName()).log(Level.SEVERE, null, ex);
+            // Redirect đến trang ManageBooking.jsp hoặc trang khác sau khi cập nhật thành công
+            response.sendRedirect("ManageBookingServlet?");
         } catch (SQLException ex) {
-            Logger.getLogger(CreateBillServlet.class.getName()).log(Level.SEVERE, null, ex);
+            // Xử lý ngoại lệ nếu có lỗi khi cập nhật trạng thái
+            ex.printStackTrace();
+            // Hoặc bạn có thể redirect đến một trang lỗi nào đó để thông báo cho người dùng
+            // response.sendRedirect("error.jsp");
         }
-    }
-
-
-    // Helper method to parse a string into a Date
-    private java.sql.Date parseDate(String dateStr) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false); // Disallow lenient parsing
-        Date parsedDate = sdf.parse(dateStr);
-        return new java.sql.Date(parsedDate.getTime());
     }
 
     /**

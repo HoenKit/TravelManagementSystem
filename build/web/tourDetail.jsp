@@ -108,10 +108,19 @@
                         <div style="width: 50%;font-size: 70%; text-align: right; padding-right: 10px; color: red">$ ${tour.tourPrice}/guest</div>
                         <div style="width: 50%;font-size: 50%">
                             <a href="OrderDetailServlet?id=${id}" style="display: inline-block; text-align: center; border:solid 1px; padding: 10px; margin-bottom: 5px; width: 300px; background-color: red; color:white; border-radius: 3%"><i class="fa-solid fa-cart-shopping"></i> Book Now</a>
-                            
-                        </div>
+                        </div>                        
                     </div>
+                        
                 </div>
+                      <div style="display: flex; align-items: center; padding-top: 50px; font-size: 200%; font-weight: bold">
+                          <div style="width: 50%"></div>
+                    <div style="width: 50%; display: flex; align-items: center">
+                        <div style="width: 50%;font-size: 70%; text-align: right; padding-right: 10px; color: red">$ ${fullPrice}</div>
+                        <div style="width: 50%;font-size: 50%">
+                            <a href="BookingFullServlet?id=${id}&people=${tour.maxCapacity}&totalPrice=${fullPrice}" style="display: inline-block; text-align: center; border:solid 1px; padding: 10px; margin-bottom: 5px; width: 300px; background-color: red; color:white; border-radius: 3%"><i class="fa-solid fa-cart-shopping"></i> Book Full Tour</a>
+                        </div>
+                        </div>
+                        </div>
 
                 <img alt="tour image" src="images/${tour.imageUrl}" style="width: 100%; margin-top: 50px;"/>
             </div>
@@ -238,15 +247,15 @@
                                 <br>
                             </div>
                             <!-- Three dots icon for more options -->
+                            <c:if test="${not empty auth.userId && auth.userId == review.booking.user.userId}">
                             <div class="more-options">
                                 <span class="fa fa-ellipsis-h"></span>
-                                <c:if test="${not empty auth.userId and not empty review.booking.user.userId}">
                                 <div class="options-dropdown">
                                     <button onclick="location.href='UpdateReviewServlet?action=update&reviewId=${review.reviewId}&id=${id}&action=update'" class="edit-btn">Edit</button>
                                     <button onclick="if(confirm('Are you sure you want to delete this review?')) location.href='UpdateReviewServlet?action=delete&reviewId=${review.reviewId}&id=${id}&action=delete'" type="button" class="delete-btn">Delete</button>    
                                 </div>
-                                </c:if>
                             </div>
+                                </c:if>
                         </div>
                     </c:forEach>
                 </div>   

@@ -145,7 +145,7 @@ public class ReviewDAO {
 
 public List<Review> getAllReviewsByTourId(int tourId) throws SQLException {
     List<Review> reviews = new ArrayList<>();
-    String sql = "SELECT TOP 4 r.review_id, u.name, r.content, r.rating, b.booking_id, b.tour_id " +
+    String sql = "SELECT TOP 4 r.review_id, u.user_id, u.name, r.content, r.rating, b.booking_id, b.tour_id " +
                  "FROM users u " +
                  "JOIN bookings b ON u.user_id = b.user_id " +
                  "JOIN reviews r ON r.booking_id = b.booking_id " +
@@ -173,6 +173,7 @@ public List<Review> getAllReviewsByTourId(int tourId) throws SQLException {
             
             // Create a User object and set its name
             User user = new User();
+            user.setUserId(resultSet.getInt("user_id"));
             user.setName(resultSet.getString("name"));
             
             // Set the Tour object in the Booking
@@ -224,4 +225,69 @@ public boolean createReview(int userId, int bookingId, String content, int ratin
     }
 }
 
+        public boolean checkReviewsByUserStatus(String status) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Reviews r " +
+                       "JOIN Bookings b ON r.booking_id = b.booking_id " +
+                       "JOIN Users u ON b.user_id = u.user_id " +
+                       "WHERE u.status = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, status);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        }
+        return false;
+    }
+    
+public List<Review> getAllReviewsWithStatusZero(int tourId) throws SQLException {
+    List<Review> reviews = new ArrayList<>();
+    String query = "SELECT TOP 4 r.review_id, u.user_id, u.name, r.content, r.rating, b.booking_id, b.tour_id " +
+                   "FROM Reviews r " +
+                   "JOIN Bookings b ON r.booking_id = b.booking_id " +
+                   "JOIN Users u ON b.user_id = u.user_id " +
+                   "WHERE u.status = '0' AND b.tour_id = ? " +
+                   "ORDER BY r.review_id DESC";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        preparedStatement.setInt(1, tourId);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                Review review = new Review();
+                review.setReviewId(resultSet.getInt("review_id"));
+                review.setRating(resultSet.getInt("rating"));
+                review.setContent(resultSet.getString("content"));
+                
+                // Create a Booking object
+                Booking booking = new Booking();
+                booking.setBookingId(resultSet.getInt("booking_id"));
+                
+                // Create a Tour object and set its ID
+                Tour tour = new Tour();
+                tour.setTourId(resultSet.getInt("tour_id"));
+                
+                // Create a User object and set its ID and name
+                User user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                user.setName(resultSet.getString("name"));
+               
+                
+                // Set the Tour object in the Booking
+                booking.setTour(tour);
+                
+                // Set the User object in the Review
+                booking.setUser(user);
+                
+                // Set the Booking object in the Review
+                review.setBooking(booking);
+                
+                reviews.add(review);
+            }
+        }
+    }
+    return reviews;
+}
+    
+    
 }
