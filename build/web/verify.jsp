@@ -29,7 +29,7 @@
                                 <input type="text" name="otp" id="otp" placeholder="OTP"required/>
                                 <span id="email-error" class="text-danger"></span>
                             </div>
-                            <input type="hidden" value="${auth.userId}" name="userId">
+                            <input type="hidden" value="${param.userId}" name="userId">
                             <div class="form-group form-button">
                                 <input type="submit" name="otp" id="otp" class="form-submit" value="Verify"/>
                             </div>

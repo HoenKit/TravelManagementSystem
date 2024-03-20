@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.dao.BookingDAO;
+import model.dao.PaySuccess;
 import model.dao.TourDAO;
 import model.dao.TourDatesDAO;
 import model.database.DatabaseConnector;
@@ -79,6 +80,7 @@ public class BookingFullServlet extends HttpServlet {
         if (user == null) {
             response.sendRedirect("login.jsp");
         } else {
+            String email = user.getEmail();
             Date bookingDate = new Date();
             HomeTour homeTour = TourDAO.getHomeTourByTourDateId(tourDateId);
             int tourId = homeTour.getTourId();
@@ -97,7 +99,8 @@ public class BookingFullServlet extends HttpServlet {
 
                 // Tạo đơn đặt tour và lấy ID của nó
                 int bookingId = bookingDAO.createBookingAndGetId(booking);
-
+                PaySuccess paySuccess = new PaySuccess();
+                paySuccess.bookFull(email);
                 // Chuyển hướng người dùng đến trang thanh toán
                 request.getRequestDispatcher("notification.jsp").forward(request, response);
             } catch (SQLException e) {

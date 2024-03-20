@@ -2,30 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.tour;
+package controller.account;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dao.BillDAO;
-import model.dao.BookingDAO;
-import model.dao.PaySuccess;
+import javax.servlet.http.HttpSession;
+import model.dao.UserDAO;
 import model.database.DatabaseConnector;
-import model.entity.Bill;
-import model.entity.Booking;
+import model.entity.User;
 
 /**
  *
  * @author ADMIN
  */
-public class BookingApprovalServlet extends HttpServlet {
+public class ProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +38,10 @@ public class BookingApprovalServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookingApprovalServlet</title>");            
+            out.println("<title>Servlet ProfileServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BookingApprovalServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,8 +59,19 @@ public class BookingApprovalServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        } else {
+        int id = user.getUserId();
+        UserDAO udao = new UserDAO(DatabaseConnector.getConnection());
+        User profile = udao.getUserById(id);
+        request.setAttribute("profile", profile);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        }
     }
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -77,36 +82,9 @@ public class BookingApprovalServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy bookingId từ request
-        int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-        
-        // Gọi phương thức changeBookingStatus để cập nhật trạng thái của booking sang "Approved"
-        try {
-            BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
-            bookingDAO.changeBookingStatus(bookingId, "0");
-            Date paymentDate = new Date();
-            Booking bk = bookingDAO.getBookingById(bookingId);
-            String email = bk.getUser().getEmail();
-            Bill bill = new Bill();
-            bill.setBooking(bk); // Đặt booking cho hóa đơn
-            bill.setPaymentDate(paymentDate);
-            bill.setPaymentMethod("Book Full");
-
-            BillDAO billDAO = new BillDAO(DatabaseConnector.getConnection());
-
-            // Insert the new bill into the database
-            billDAO.createBill(bill);
-            PaySuccess paySuccess = new PaySuccess();
-                    paySuccess.approve(email);
-            // Redirect đến trang ManageBooking.jsp hoặc trang khác sau khi cập nhật thành công
-            response.sendRedirect("ManageBookingServlet?");
-        } catch (SQLException ex) {
-            // Xử lý ngoại lệ nếu có lỗi khi cập nhật trạng thái
-            ex.printStackTrace();
-            // Hoặc bạn có thể redirect đến một trang lỗi nào đó để thông báo cho người dùng
-            // response.sendRedirect("error.jsp");
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

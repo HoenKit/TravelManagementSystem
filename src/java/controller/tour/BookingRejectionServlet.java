@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.BillDAO;
 import model.dao.BookingDAO;
+import model.dao.PaySuccess;
 import model.database.DatabaseConnector;
 import model.entity.Bill;
 import model.entity.Booking;
@@ -82,6 +83,10 @@ public class BookingRejectionServlet extends HttpServlet {
         try {
             BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
             bookingDAO.changeBookingStatus(bookingId, "2");
+            Booking bk = bookingDAO.getBookingById(bookingId);
+            String email = bk.getUser().getEmail();
+            PaySuccess paySuccess = new PaySuccess();
+                    paySuccess.reject(email);
             // Redirect đến trang ManageBooking.jsp hoặc trang khác sau khi cập nhật thành công
             response.sendRedirect("ManageBookingServlet?");
         } catch (SQLException ex) {

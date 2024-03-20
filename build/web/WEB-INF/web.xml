@@ -224,6 +224,14 @@
         <servlet-name>BookingRejectionServlet</servlet-name>
         <servlet-class>controller.tour.BookingRejectionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>controller.account.ProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>controller.account.ChangePasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/WelcomeServlet</url-pattern>
@@ -463,6 +471,14 @@
     <servlet-mapping>
         <servlet-name>BookingRejectionServlet</servlet-name>
         <url-pattern>/BookingRejectionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/ProfileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

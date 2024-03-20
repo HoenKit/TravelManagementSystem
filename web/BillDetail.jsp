@@ -60,8 +60,12 @@
                     <td>${bill.booking.tour.tourName}</td>
                 </tr>
                 <tr>
-                    <th>User:</th>
+                    <th>User Name:</th>
                     <td>${bill.booking.user.name}</td>
+                </tr>
+                <tr>
+                    <th>User ID:</th>
+                    <td>${bill.booking.user.userId}</td>
                 </tr>
                 <tr>
                     <th>Booking Date:</th>

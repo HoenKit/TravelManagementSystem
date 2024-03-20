@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <p style="color: red" class="text-danger">${mess}</p>
                         <input type="password" name="opass" class="form-control" placeholder="Current password">
-                        <input type="hidden" name="email" value="${auth.email}"/>
+                        <input type="hidden" name="email" value="${profile.email}"/>
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="New password">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group form-button">
                         <input type="submit" class="form-submit" value="Change Password"/>
-                        <a href="profile.jsp" style="color: black;" class="btn btn-default">Back to Profile</a>
+                        <a href="ProfileServlet?" style="color: black;" class="btn btn-default">Back to Profile</a>
                     </div>
                 </form>
             </div>

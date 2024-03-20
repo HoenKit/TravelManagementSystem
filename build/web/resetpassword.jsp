@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-                        <input type="hidden" value="${auth.userId}" name="userId">      
+                        <input type="hidden" value="${param.userId}" name="userId">      
                     </div>
                     <div class="form-group form-button">
                         <input type="submit" class="form-submit" value="Reset Password"/>

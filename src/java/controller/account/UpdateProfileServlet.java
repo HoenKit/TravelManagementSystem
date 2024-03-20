@@ -31,9 +31,11 @@ public class UpdateProfileServlet extends HttpServlet {
             if(f2){
                 request.getSession().setAttribute("auth", user);
                 request.setAttribute("sucMsg", "Update Profile Successfully");
+                request.setAttribute("profile", user);
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }else{
                 request.setAttribute("failedMsg", "Somthing wrong on server");
+                request.setAttribute("profile", user);
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
             /*else{
