@@ -86,7 +86,7 @@
                 $('#successModal').modal('show');
                 setTimeout(function() {
                     document.getElementById("payment-form").submit();
-                }, 2000); 
+                }, 1000); 
             });
         });
     </script>

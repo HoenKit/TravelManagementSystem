@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.BillDAO;
 import model.dao.BookingDAO;
+import model.dao.PaySuccess;
 import model.database.DatabaseConnector;
 import model.entity.Bill;
 import model.entity.Booking;
@@ -85,9 +86,8 @@ public class BookingApprovalServlet extends HttpServlet {
             BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
             bookingDAO.changeBookingStatus(bookingId, "0");
             Date paymentDate = new Date();
-            Booking bk = new Booking();
-            bk.setBookingId(bookingId);
-            
+            Booking bk = bookingDAO.getBookingById(bookingId);
+            String email = bk.getUser().getEmail();
             Bill bill = new Bill();
             bill.setBooking(bk); // Đặt booking cho hóa đơn
             bill.setPaymentDate(paymentDate);
@@ -97,6 +97,8 @@ public class BookingApprovalServlet extends HttpServlet {
 
             // Insert the new bill into the database
             billDAO.createBill(bill);
+            PaySuccess paySuccess = new PaySuccess();
+                    paySuccess.approve(email);
             // Redirect đến trang ManageBooking.jsp hoặc trang khác sau khi cập nhật thành công
             response.sendRedirect("ManageBookingServlet?");
         } catch (SQLException ex) {

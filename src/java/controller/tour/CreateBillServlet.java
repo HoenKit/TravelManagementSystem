@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.BillDAO;
+import model.dao.PaySuccess;
 import model.database.DatabaseConnector;
 import model.entity.Bill;
 import model.entity.Booking;
@@ -115,6 +116,8 @@ public class CreateBillServlet extends HttpServlet {
 
             // Check payment method to determine redirect destination
             if ("Cash".equalsIgnoreCase(paymentMethod)) {
+                PaySuccess paySuccess = new PaySuccess();
+                    paySuccess.send(email);
                 // Redirect to home page if payment method is cash
                 response.sendRedirect("Home");
             } else {

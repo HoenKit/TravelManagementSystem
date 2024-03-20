@@ -20,6 +20,7 @@
                 <th scope="col">Booking ID</th>
                 <th scope="col">Tour Name</th>
                 <th scope="col">User Name</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Booking Date</th>
                 <th scope="col">Number of People</th>
                 <th scope="col">Total Price</th>
@@ -32,6 +33,7 @@
                     <td>${booking.bookingId}</td>
                     <td>${booking.tour.tourName}</td>
                     <td>${booking.user.name}</td>
+                    <td>${booking.user.phone}</td>
                     <td>${booking.bookingDate}</td>
                     <td>${booking.numberOfPeople}</td>
                     <td>${booking.totalPrice}</td>
