@@ -109,8 +109,6 @@ public class SignUpServlet extends HttpServlet {
             if (dao.checkUserExist(email)) {
                 // Forward back to the signup page with an error message
                 request.setAttribute("mess", "Email already existed");
-                // Pass user object to keep the entered data
-                request.setAttribute("auth", user);
                 request.getRequestDispatcher("Sign-up.jsp").forward(request, response);
             } else {
                     String otp = generateOTP();
@@ -129,10 +127,9 @@ public class SignUpServlet extends HttpServlet {
                     
                     
                     session.setAttribute("otp", otp);
-                    
-                    session.setAttribute("auth", user);
-                        
-                    response.sendRedirect("verifySignUp.jsp");
+                    request.setAttribute("user", user);
+
+                    request.getRequestDispatcher("verifySignUp.jsp").forward(request, response);
                     
                     
                 }
