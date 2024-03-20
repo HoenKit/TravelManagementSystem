@@ -81,9 +81,9 @@ public class UserServlet extends HttpServlet {
 			UserDAO udao = new UserDAO(connection);
                         
                         User user = new User(password, email);
-			  try {
+			try {
 
-                         user = udao.checkLogIn(email, password);
+                        user = udao.checkLogIn(email, password);
 
                     } catch (Exception e) {
                         System.out.println("===============");              
@@ -106,7 +106,7 @@ public class UserServlet extends HttpServlet {
 			} else {
                                 request.setAttribute("mess","Wrong Email or Password, please try again!");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
-                                
+                               
 			}
 
 		    }

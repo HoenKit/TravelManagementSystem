@@ -232,6 +232,10 @@
         <servlet-name>ChangePasswordServlet</servlet-name>
         <servlet-class>controller.account.ChangePasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewBillDetailByUserServlet</servlet-name>
+        <servlet-class>controller.account.ViewBillDetailByUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/WelcomeServlet</url-pattern>
@@ -479,6 +483,10 @@
     <servlet-mapping>
         <servlet-name>ChangePasswordServlet</servlet-name>
         <url-pattern>/ChangePasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewBillDetailByUserServlet</servlet-name>
+        <url-pattern>/ViewBillDetailByUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

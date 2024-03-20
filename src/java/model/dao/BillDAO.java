@@ -133,5 +133,36 @@ public class BillDAO {
             statement.executeUpdate();
         }
     }
+public List<Bill> getBillsByUserId(int userId) throws SQLException {
+    List<Bill> bills = new ArrayList<>();
+    String query = "SELECT b.booking_id, t.tour_name, b.booking_date, b.number_of_people, b.total_price, bl.bill_id " +
+                   "FROM bookings b " +
+                   "JOIN bills bl ON b.booking_id = bl.booking_id " +
+                   "JOIN tours t ON b.tour_id = t.tour_id " +
+                   "WHERE b.user_id = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        preparedStatement.setInt(1, userId);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                
+                Booking booking = new Booking();
+                booking.setBookingId(resultSet.getInt("booking_id"));
+                booking.setNumberOfPeople(resultSet.getInt("number_of_people"));
+                booking.setTotalPrice(resultSet.getBigDecimal("total_price"));
+                booking.setBookingDate(resultSet.getDate("booking_date"));
+                bill.setBooking(booking);
 
+                // Retrieve tour details
+                Tour tour = new Tour();
+                tour.setTourName(resultSet.getString("tour_name"));
+                booking.setTour(tour);
+                
+                bill.setBillId(resultSet.getInt("bill_id"));
+                bills.add(bill);
+            }
+        }
+    }
+    return bills;
+}
 }

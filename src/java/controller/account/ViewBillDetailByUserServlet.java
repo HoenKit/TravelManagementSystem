@@ -6,25 +6,24 @@ package controller.account;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.dao.BillDAO;
-import model.dao.BookingDAO;
+import model.dao.CustomerDAO;
 import model.database.DatabaseConnector;
 import model.entity.Bill;
-import model.entity.Booking;
-import model.entity.User;
-
+import model.entity.Customer;
 
 /**
  *
  * @author NPB
  */
-public class ViewBookingServlet extends HttpServlet {
+public class ViewBillDetailByUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +42,10 @@ public class ViewBookingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewBookingServlet</title>");            
+            out.println("<title>Servlet ViewBillDetailByUserServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewBookingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewBillDetailByUserServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,27 +61,41 @@ public class ViewBookingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
-            int userId = (int) session.getAttribute("userId"); 
+            // Lấy billId từ request parameter
+            int billId = Integer.parseInt(request.getParameter("billId"));
 
+            // Tạo đối tượng BillDAO
             BillDAO billDAO = new BillDAO(DatabaseConnector.getConnection());
-            List<Bill> bills = billDAO.getBillsByUserId(userId);
 
-            
-            if (bills.isEmpty()) {
-                response.sendRedirect("View-Booking-History.jsp");
+            // Gọi phương thức getBillById từ BillDAO để lấy thông tin của hóa đơn
+            Bill bill = billDAO.getBillById(billId);
+            int bookingId = bill.getBooking().getBookingId();
+            CustomerDAO customerDAO = new CustomerDAO(DatabaseConnector.getConnection());
+            List<Customer> customers = customerDAO.getCustomerByBookingId(bookingId);
+
+            // Set the retrieved customers as an attribute in the request scope
+            request.setAttribute("customers", customers);
+
+            // Kiểm tra nếu hóa đơn không tồn tại, chuyển hướng đến trang 404
+            if (bill == null) {
+                response.sendRedirect("404.jsp");
                 return;
-            } else {
-                request.setAttribute("bills", bills);
-                request.getRequestDispatcher("View-Booking-History.jsp").forward(request, response);
             }
-        } catch (Exception e) {
+
+            // Lưu thông tin của hóa đơn vào request attribute để hiển thị trên trang jsp
+            request.setAttribute("bill", bill);
+
+            // Chuyển hướng đến trang hiển thị chi tiết hóa đơn
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewBillDetail-ByUser.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException | NumberFormatException ex) {
+            // Xử lý ngoại lệ SQLException
+            ex.printStackTrace();
             response.sendRedirect("404.jsp");
-            e.printStackTrace();
         }
+        
     }
     /**
      * Handles the HTTP <code>POST</code> method.

@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="text-left mt-3">
-                <a href="profile.jsp" class="btn btn-primary px4">Back To Profile</a>
+                <a href="ProfileServlet" class="btn btn-primary px4">Back To Profile</a>
             </div>
         </div>
 
