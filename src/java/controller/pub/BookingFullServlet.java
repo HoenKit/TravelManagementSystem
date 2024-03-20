@@ -50,7 +50,7 @@ public class BookingFullServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookingFullServlet</title>");            
+            out.println("<title>Servlet BookingFullServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet BookingFullServlet at " + request.getContextPath() + "</h1>");
@@ -76,29 +76,33 @@ public class BookingFullServlet extends HttpServlet {
         BigDecimal totalPrice = new BigDecimal(request.getParameter("totalPrice"));
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("auth");
-        Date bookingDate = new Date();
-        HomeTour homeTour = TourDAO.getHomeTourByTourDateId(tourDateId);
-        int tourId = homeTour.getTourId();
-        Tour tour = new Tour();
-        tour.setTourId(tourId);
-        Booking booking = new Booking();
-        booking.setTour(tour);
-        booking.setUser(user);
-        booking.setNumberOfPeople(people);
-        booking.setTotalPrice(totalPrice);
-        booking.setBookingDate(bookingDate);
-        booking.setStatus("1");
-        try {
-            // Khởi tạo BookingDAO
-            BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
-            
-            // Tạo đơn đặt tour và lấy ID của nó
-            int bookingId = bookingDAO.createBookingAndGetId(booking);
-            
-            // Chuyển hướng người dùng đến trang thanh toán
-            request.getRequestDispatcher("notification.jsp").forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        } else {
+            Date bookingDate = new Date();
+            HomeTour homeTour = TourDAO.getHomeTourByTourDateId(tourDateId);
+            int tourId = homeTour.getTourId();
+            Tour tour = new Tour();
+            tour.setTourId(tourId);
+            Booking booking = new Booking();
+            booking.setTour(tour);
+            booking.setUser(user);
+            booking.setNumberOfPeople(people);
+            booking.setTotalPrice(totalPrice);
+            booking.setBookingDate(bookingDate);
+            booking.setStatus("1");
+            try {
+                // Khởi tạo BookingDAO
+                BookingDAO bookingDAO = new BookingDAO(DatabaseConnector.getConnection());
+
+                // Tạo đơn đặt tour và lấy ID của nó
+                int bookingId = bookingDAO.createBookingAndGetId(booking);
+
+                // Chuyển hướng người dùng đến trang thanh toán
+                request.getRequestDispatcher("notification.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
