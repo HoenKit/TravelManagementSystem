@@ -3,15 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/ManageBooking.jsp</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/UpdateTour.jsp</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/src/java/controller/pub/OrderDetailServlet.java</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/customer.jsp</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/Hotel.jsp</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/src/java/controller/pub/BookingFullServlet.java</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/tourDetail.jsp</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/src/java/model/entity/User.java</file>
-            <file>file:/D:/DaiHoc/Ki%205/SWP391/TravelManagementSystem/web/BillDetail.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/verify.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/tourDetail.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/controller/account/ResetPasswordServlet.java</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/controller/account/ViewBookingServlet.java</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/Sign-up.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/model/dao/BillDAO.java</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/login.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/WEB-INF/web.xml</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/ViewBillDetail-ByUser.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/web/View-Booking-History.jsp</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/controller/account/UserServlet.java</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/controller/account/ViewBillDetailByUserServlet.java</file>
+            <file>file:/D:/DES/Download/GIT-C4tTravel/TravelManagementSystem/src/java/controller/account/UpdateReviewServlet.java</file>
         </group>
     </open-files>
 </project-private>

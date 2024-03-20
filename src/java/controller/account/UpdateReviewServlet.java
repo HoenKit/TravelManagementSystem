@@ -66,9 +66,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
-                case "update1":
-                    updateReview1(request, response);
-                    break;
                 case "update":
                     updateReview(request, response);
                     break;
@@ -83,35 +80,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             response.sendRedirect("404.jsp");
         }
     }
-private void updateReview1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    try {
-        int reviewId = Integer.parseInt(request.getParameter("reviewId"));
-
-        // Tạo đối tượng ReviewDAO
-        ReviewDAO reviewDAO = new ReviewDAO(DatabaseConnector.getConnection());
-
-        // Gọi phương thức getReviewById từ ReviewDAO để lấy thông tin của đánh giá
-        Review review = reviewDAO.getReviewById(reviewId);
-
-        // Kiểm tra nếu đánh giá không tồn tại, chuyển hướng đến trang 404
-        if (review == null) {
-            response.sendRedirect("404.jsp");
-            return;
-        }
-        // Lưu thông tin của đánh giá vào request attribute để hiển thị trên trang jsp
-        request.setAttribute("review", review);
-        
-
-        // Chuyển hướng đến trang cập nhật thông tin đánh giá, nơi có thể hiển thị thông tin và cho phép người dùng cập nhật
-        RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateReview.jsp");
-        dispatcher.forward(request, response);
-    } catch (SQLException ex) {
-        java.util.logging.Logger.getLogger(UpdateReviewServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-
-}
-
 private void updateReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {

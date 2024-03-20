@@ -25,20 +25,24 @@
                                     <th>Booking Date</th>
                                     <th>Number of People</th>
                                     <th>Total Price</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="booking" items="${bookings}">
-                                    <tr>
-                                        <td>${booking.tour.tourName}</td>
-                                        <td>${booking.bookingDate}</td>
-                                        <td>${booking.numberOfPeople}</td>
-                                        <td>${booking.totalPrice}</td>
+                                <c:forEach var="bill" items="${bills}">
+                                    <tr>                               
+                                        <td>${bill.booking.tour.tourName}</td>
+                                        <td>${bill.booking.bookingDate}</td>
+                                        <td>${bill.booking.numberOfPeople}</td>
+                                        <td>${bill.booking.totalPrice}</td>
+                                        <td>
+                                            <button type="button" onclick="window.location.href = 'ViewBillDetailByUserServlet?billId=${bill.billId}'">View Detail</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-                        <c:if test="${empty bookings}">
+                        <c:if test="${empty bills}">
                             <div class="alert alert-warning" role="alert">
                                 No bookings found.
                             </div>
