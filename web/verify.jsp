@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">Enter OTP that we send to your email to Sign Up</h2>
+                        <h2 class="form-title">Enter OTP that we send to your email to Changed Your Password</h2>
                         <form action="VerifyOTPServlet" method="post" class="register-form" id="register-form">
 
                             <div class="form-group">
@@ -29,7 +29,7 @@
                                 <input type="text" name="otp" id="otp" placeholder="OTP"required/>
                                 <span id="email-error" class="text-danger"></span>
                             </div>
-                            <input type="hidden" value="${auth.userId}" name="userId">
+                            <input type="hidden" value="${param.userId}" name="userId">
                             <div class="form-group form-button">
                                 <input type="submit" name="otp" id="otp" class="form-submit" value="Verify"/>
                             </div>

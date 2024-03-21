@@ -269,7 +269,6 @@ public class UserDAO {
             statement.setInt(2, id);
             statement.execute();
             statement.close();
-            connection.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

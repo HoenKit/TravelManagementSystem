@@ -86,8 +86,6 @@ public class SendEmailServlet extends HttpServlet {
 
                     session.setAttribute("otp", otp);
                     
-                    session.setAttribute("auth", user);
-                    
                     response.sendRedirect("verify.jsp?userId=" + user.getUserId());
                 }
 

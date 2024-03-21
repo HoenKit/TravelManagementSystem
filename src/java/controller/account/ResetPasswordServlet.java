@@ -79,7 +79,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             
             request.getRequestDispatcher("password-changed-successfully.jsp").forward(request, response);
             
-            request.getSession().setAttribute("auth", user);
         } else {
             // User not found, redirect to error page
             response.sendRedirect("404.jsp");

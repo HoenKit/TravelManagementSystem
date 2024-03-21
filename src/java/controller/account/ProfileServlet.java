@@ -6,25 +6,20 @@ package controller.account;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.dao.BillDAO;
-import model.dao.BookingDAO;
+import model.dao.UserDAO;
 import model.database.DatabaseConnector;
-import model.entity.Bill;
-import model.entity.Booking;
 import model.entity.User;
-
 
 /**
  *
- * @author NPB
+ * @author ADMIN
  */
-public class ViewBookingServlet extends HttpServlet {
+public class ProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +38,10 @@ public class ViewBookingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewBookingServlet</title>");            
+            out.println("<title>Servlet ProfileServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewBookingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,28 +57,22 @@ public class ViewBookingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession();
-            int userId = (int) session.getAttribute("userId"); 
-
-            BillDAO billDAO = new BillDAO(DatabaseConnector.getConnection());
-            List<Bill> bills = billDAO.getBillsByUserId(userId);
-
-            
-            if (bills.isEmpty()) {
-                response.sendRedirect("View-Booking-History.jsp");
-                return;
-            } else {
-                request.setAttribute("bills", bills);
-                request.getRequestDispatcher("View-Booking-History.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            response.sendRedirect("404.jsp");
-            e.printStackTrace();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        } else {
+        int id = user.getUserId();
+        UserDAO udao = new UserDAO(DatabaseConnector.getConnection());
+        User profile = udao.getUserById(id);
+        request.setAttribute("profile", profile);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
     }
+    
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *

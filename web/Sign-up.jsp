@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <%-- Giữ lại giá trị đã nhập --%>
-                            <input type="text" name="name" id="name" placeholder="Your Name" value="${auth.name}"/>
+                            <input type="text" name="name" id="name" placeholder="Your Name"/>
                         </div>
                         <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -38,18 +38,18 @@
                         </div>
                         <div class="form-group">
                             <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="password" id="password" placeholder="Your Password" value="${auth.password}"/>
+                            <input type="password" name="password" id="password" placeholder="Your Password" />
                         </div>
                         <div class="form-group">
                             <label for="phone"><i class="zmdi zmdi-phone"></i></label>
                             <%-- Giữ lại giá trị đã nhập --%>
-                            <input type="text" name="phone" id="phone" placeholder="Your Phone" value="${auth.phone}"/>
+                            <input type="text" name="phone" id="phone" placeholder="Your Phone"/>
                             <span id="phone-error" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="address"><i class="zmdi zmdi-address"></i></label>
                             <%-- Giữ lại giá trị đã nhập --%>
-                            <input type="text" name="address" id="address" placeholder="Your Address" value="${auth.address}"/>
+                            <input type="text" name="address" id="address" placeholder="Your Address"/>
                         </div>
                         <div class="form-group">
                             <input type="hidden" name="role" id="role" value="User"/>

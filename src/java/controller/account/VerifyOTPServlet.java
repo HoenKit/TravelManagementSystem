@@ -79,7 +79,6 @@ public class VerifyOTPServlet extends HttpServlet {
                     User user = new User(name, pass, email, address, phone, role, status);
                     udao.addUser(user);
                     
-                    request.getSession().setAttribute("auth", user);
                     
                     request.setAttribute("mess", "Sign Up Success");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
