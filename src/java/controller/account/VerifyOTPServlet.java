@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.database.DatabaseConnector;
 import model.entity.User;
 
@@ -54,15 +55,7 @@ public class VerifyOTPServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = DatabaseConnector.getConnection();
         String userId = request.getParameter("userId");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-        String role = request.getParameter("role");
-        String status = request.getParameter("status");
         String userOTP = request.getParameter("otp");
-        
 
         String saveOTP = (String) request.getSession().getAttribute("otp");
 
@@ -75,11 +68,10 @@ public class VerifyOTPServlet extends HttpServlet {
                 try {
                     UserDAO udao = new UserDAO(connection);
                     System.out.println(udao);
-                    
-                    User user = new User(name, pass, email, address, phone, role, status);
+                    HttpSession session = request.getSession();
+                    User user = (User) session.getAttribute("auth");
                     udao.addUser(user);
-                    
-                    
+                    session.removeAttribute("auth");
                     request.setAttribute("mess", "Sign Up Success");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } catch (Exception ex) {

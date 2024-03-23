@@ -127,7 +127,7 @@ public class SignUpServlet extends HttpServlet {
                     
                     
                     session.setAttribute("otp", otp);
-                    request.setAttribute("user", user);
+                    session.setAttribute("auth", user);
 
                     request.getRequestDispatcher("verifySignUp.jsp").forward(request, response);
                     

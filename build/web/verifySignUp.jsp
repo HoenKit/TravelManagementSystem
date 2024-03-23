@@ -33,13 +33,7 @@
                                 <input type="text" name="otp" id="otp" placeholder="OTP"required/>
                                 <span id="email-error" class="text-danger"></span>
                             </div>
-                            <input type="hidden" value="${requestScope.user.name}" name="name">
-                            <input type="hidden" value="${requestScope.user.email}" name="email">
-                            <input type="hidden" value="${requestScope.user.password}" name="password">
-                            <input type="hidden" value="${requestScope.user.phone}" name="phone">
-                            <input type="hidden" value="${requestScope.user.address}" name="address">
-                            <input type="hidden" value="${requestScope.user.role}" name="role">
-                            <input type="hidden" value="${requestScope.user.status}" name="status">
+                            
 
 
                             <div class="form-group form-button">
